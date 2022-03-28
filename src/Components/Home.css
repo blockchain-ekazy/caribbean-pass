@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;700&family=Montserrat:wght@400;700&family=Noto+Sans+JP:wght@700&display=swap");
+
+.Sara {
+  font-family: "Montserrat";
+  background-color: black;
+}
+.Box {
+  border: 0.1px solid white;
+  border-radius: 20px;
+  color: white;
+  padding: 15px;
+}
+.Mint {
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.288);
+  border-radius: 10px;
+}
+
+.Cbtn {
+  background-color: transparent;
+  color: white;
+}
+.Btnn {
+  background-color: transparent;
+  color: white;
+}
+.apecoin {
+  width: 20px;
+  /* height: 20px; */
+}
+.Cbtn {
+  background-color: #373737 !important;
+}
+.loading {
+  width: 100px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.topvid {
+  max-width: 500px;
+}
+h3 {
+  font-weight: 600;
+}
