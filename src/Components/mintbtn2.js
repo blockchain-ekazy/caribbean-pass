@@ -8,7 +8,7 @@ import loading from "../images/loading.gif";
 import one from "../images/2.png";
 import apecoin from "../images/apecoin.ico";
 
-const REACT_APP_CONTRACT_ADDRESS = "0xA05eF2ecF140Ef3102a25F2c0260B50A5c094c92";
+const REACT_APP_CONTRACT_ADDRESS = "0xE78d66AAa50D2c0E48bC5C94473e94dD9ee01FAf";
 const SELECTEDNETWORK = "4";
 const SELECTEDNETWORKNAME = "Ethereum Testnet";
 const nftquantity = 1000;
@@ -96,9 +96,12 @@ function Mintbtn2() {
         const coinAddress = "0xc1F77DdD6ba4f960AdE9429F0216728f9DF2713f";
         const coinCt = new web3.eth.Contract(coinabi, coinAddress);
         let balance = await coinCt.methods.balanceOf(metaMaskAccount).call();
+        let balance2 = await ct.methods
+          .balanceOf(metaMaskAccount, tokenId)
+          .call();
         // let price = await ct.methods.price(tokenId).call();
         // alert(balance >= price);
-        if (balance >= price) {
+        if (balance >= price && balance2 < 5) {
           await coinCt.methods
             .approve(REACT_APP_CONTRACT_ADDRESS, String(price))
             .send({ from: metaMaskAccount });
@@ -133,7 +136,10 @@ function Mintbtn2() {
         setErrorMsg(<img className="loading" src={loading} />);
 
         let balance = await ct.methods.balanceOf(metaMaskAccount, 1).call();
-        if (balance >= Number(burnQ)) {
+        let balance2 = await ct.methods
+          .balanceOf(metaMaskAccount, tokenId)
+          .call();
+        if (balance >= Number(burnQ) && balance2 < 5) {
           await ct.methods.burnMint(tokenId).send({ from: metaMaskAccount });
         } else {
           setErrorMsg(<>Insufficient Bronze for burning 🔥</>);

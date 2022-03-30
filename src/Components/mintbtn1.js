@@ -8,7 +8,7 @@ import loading from "../images/loading.gif";
 import one from "../images/1.png";
 import apecoin from "../images/apecoin.ico";
 
-const REACT_APP_CONTRACT_ADDRESS = "0xA05eF2ecF140Ef3102a25F2c0260B50A5c094c92";
+const REACT_APP_CONTRACT_ADDRESS = "0xE78d66AAa50D2c0E48bC5C94473e94dD9ee01FAf";
 const SELECTEDNETWORK = "4";
 const SELECTEDNETWORKNAME = "Ethereum Testnet";
 const nftquantity = 2500;
@@ -43,7 +43,8 @@ function Mintbtn1() {
 
         let total = await ct.methods.totalSupply(tokenId).call();
         setPrice(await ct.methods.price(tokenId).call());
-        setMaxAllowed(total < 1001 ? 3 : 5);
+        total = Number(total) + Number(await ct.methods.burned().call());
+        setMaxAllowed(total < 1001 ? 2 : 5);
         setSupply(total);
         if (nftquantity - total == 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
@@ -96,13 +97,19 @@ function Mintbtn1() {
           if (
             (await ct.methods.balanceOf(metaMaskAccount, tokenId).call()) == 3
           ) {
-            setErrorMsg("Already Minted 3 for Free");
+            setErrorMsg("Already Minted 2 for Free");
             return;
           }
           await ct.methods
             .mintBronzeA(quantity)
             .send({ from: metaMaskAccount });
         } else {
+          if (
+            (await ct.methods.balanceOf(metaMaskAccount, tokenId).call()) > 7
+          ) {
+            setErrorMsg("Already Minted 7 Bronze");
+            return;
+          }
           const coinAddress = "0xc1F77DdD6ba4f960AdE9429F0216728f9DF2713f";
           const coinCt = new web3.eth.Contract(coinabi, coinAddress);
           let balance = await coinCt.methods.balanceOf(metaMaskAccount).call();
@@ -143,6 +150,7 @@ function Mintbtn1() {
         let total = await ct.methods.totalSupply(tokenId).call();
 
         setPrice(await ct.methods.price(tokenId).call());
+        total = Number(total) + Number(await ct.methods.burned().call());
         setSupply(total);
         if (nftquantity - total == 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
@@ -172,7 +180,7 @@ function Mintbtn1() {
               <p className="" style={{ fontSize: "13px" }}>
                 First 1000 Bronze Passes are Free to mint
                 <br />
-                <small>(MAX 3 PER WALLET)</small>
+                <small>(MAX 2 PER WALLET)</small>
               </p>
             </div>
           </div>
