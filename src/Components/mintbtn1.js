@@ -8,7 +8,7 @@ import loading from "../images/loading.gif";
 import one from "../images/1.png";
 import apecoin from "../images/apecoin.ico";
 
-const REACT_APP_CONTRACT_ADDRESS = "0xA3950BB5Fb4aa7e2486c6FD0B7Bc1de9CDa21ce7";
+const REACT_APP_CONTRACT_ADDRESS = "0xc41d5312c1F5b194130EF7231F2F5652f9941b77";
 const SELECTEDNETWORK = "4";
 const SELECTEDNETWORKNAME = "Ethereum Testnet";
 const nftquantity = 2500;
@@ -21,6 +21,7 @@ function Mintbtn1() {
   const [price, setPrice] = useState(<img className="loading" src={loading} />);
   const [walletConnected, setWalletConnected] = useState(0);
   const [maxAllowed, setMaxAllowed] = useState(0);
+  const [burned, setBurned] = useState(0);
 
   function showprice() {
     return supply < 1001 ? (
@@ -43,7 +44,9 @@ function Mintbtn1() {
 
         let total = await ct.methods.totalSupply(tokenId).call();
         setPrice(await ct.methods.price(tokenId).call());
-        total = Number(total) + Number(await ct.methods.burned().call());
+        let b = await ct.methods.burned().call();
+        setBurned(b);
+        total = Number(total) + Number(b);
         setMaxAllowed(total < 1001 ? 2 : 5);
         setSupply(total);
         if (nftquantity - total == 0) {
@@ -150,7 +153,9 @@ function Mintbtn1() {
         let total = await ct.methods.totalSupply(tokenId).call();
 
         setPrice(await ct.methods.price(tokenId).call());
-        total = Number(total) + Number(await ct.methods.burned().call());
+        let b = await ct.methods.burned().call();
+        setBurned(b);
+        total = Number(total) + Number(b);
         setSupply(total);
         if (nftquantity - total == 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
@@ -166,9 +171,10 @@ function Mintbtn1() {
     <>
       <div className="Box pt-5 ">
         <div className="px-4">
-          <h3>Bronze Pass</h3>
+          <h3>Bronze Membership</h3>
           <h6 className="pb-3">
-            Sold: {supply}/{nftquantity}
+            Sold: {Number(supply)}/{nftquantity} <br />
+            Burned: {burned}
           </h6>
           <div className="row align-items-center">
             <div className="col-sm-6">

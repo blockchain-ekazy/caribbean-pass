@@ -8,7 +8,7 @@ import loading from "../images/loading.gif";
 import one from "../images/2.png";
 import apecoin from "../images/apecoin.ico";
 
-const REACT_APP_CONTRACT_ADDRESS = "0xA3950BB5Fb4aa7e2486c6FD0B7Bc1de9CDa21ce7";
+const REACT_APP_CONTRACT_ADDRESS = "0xc41d5312c1F5b194130EF7231F2F5652f9941b77";
 const SELECTEDNETWORK = "4";
 const SELECTEDNETWORKNAME = "Ethereum Testnet";
 const nftquantity = 1000;
@@ -20,7 +20,7 @@ function Mintbtn2() {
   const [supply, setSupply] = useState(0);
   const [price, setPrice] = useState(<img className="loading" src={loading} />);
   const [walletConnected, setWalletConnected] = useState(0);
-  const [maxAllowed, setMaxAllowed] = useState(1);
+  const [maxAllowed, setMaxAllowed] = useState(10);
   const [option, setOption] = useState(0);
   const [burnQ, setBurnQ] = useState(<img className="loading" src={loading} />);
 
@@ -100,12 +100,16 @@ function Mintbtn2() {
           .balanceOf(metaMaskAccount, tokenId)
           .call();
         // let price = await ct.methods.price(tokenId).call();
-        // alert(balance >= price);
-        if (balance >= price && balance2 < 5) {
+        if (
+          Number(balance) >= Number(price) * Number(quantity) &&
+          balance2 < 5
+        ) {
           await coinCt.methods
-            .approve(REACT_APP_CONTRACT_ADDRESS, String(price))
+            .approve(REACT_APP_CONTRACT_ADDRESS, String(price * quantity))
             .send({ from: metaMaskAccount });
-          await ct.methods.mint(tokenId).send({ from: metaMaskAccount });
+          await ct.methods
+            .mint(tokenId, quantity)
+            .send({ from: metaMaskAccount });
         } else {
           setErrorMsg(
             <>
@@ -139,8 +143,10 @@ function Mintbtn2() {
         let balance2 = await ct.methods
           .balanceOf(metaMaskAccount, tokenId)
           .call();
-        if (balance >= Number(burnQ) && balance2 < 5) {
-          await ct.methods.burnMint(tokenId).send({ from: metaMaskAccount });
+        if (balance >= Number(burnQ) * Number(quantity) && balance2 < 5) {
+          await ct.methods
+            .burnMint(tokenId, quantity)
+            .send({ from: metaMaskAccount });
         } else {
           setErrorMsg(<>Insufficient Bronze for burning 🔥</>);
           return;
@@ -178,7 +184,7 @@ function Mintbtn2() {
     <>
       <div className="Box pt-5 ">
         <div className="px-4">
-          <h3>Silver Pass</h3>
+          <h3>Silver Membership</h3>
           <h6 className="pb-3">
             Sold: {supply}/{nftquantity}
           </h6>
@@ -256,7 +262,7 @@ function Mintbtn2() {
                 }}
               />
               <label htmlFor="silverburn" className="mx-2">
-                Burn 🔥 {burnQ} Bronze + GAS
+                Burn 🔥 {burnQ * quantity} Bronze + GAS
               </label>
             </div>
           </div>
@@ -274,7 +280,7 @@ function Mintbtn2() {
               </button>
             ) : (
               <button onClick={() => burnAndMint()} className="btn Cbtn ">
-                Burn 🔥 {burnQ} and Mint
+                Burn 🔥 {burnQ * quantity} and Mint
               </button>
             )
           ) : (

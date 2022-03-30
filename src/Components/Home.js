@@ -6,6 +6,7 @@ import Mintbtn2 from "./mintbtn2";
 import Mintbtn3 from "./mintbtn3";
 import Mintbtn4 from "./mintbtn4";
 import four from "../images/4.mp4";
+import apecoin from "../images/apecoin.ico";
 
 export default function Home() {
   const [quantity, setQuantity] = useState(1);
@@ -21,8 +22,28 @@ export default function Home() {
         >
           <source src={four}></source>
         </video>
-        <h1>Genesis Pass</h1>
+        <h1>The Genesis Collection</h1>
+        <h4>By Racs-O</h4>
+        {/* </h1> */}
         <h6 className="pb-3">Total supply: 4200 NFTs</h6>
+        <h6>
+          No Roadmap. No Discord.
+          <br /> If you love clear waters and good vibes....
+          <br /> ....well then....
+          <br />
+          <br />
+          Play the Game.
+          <br />
+          <br />
+          First 1000 Bronze Memberships are FREE to mint.
+          <br />
+          You can burn 🔥 your Bronze Membership to upgrade
+          <br />
+          <br />
+          <a href="https://apecoin.com/exchanges">
+            BUY APE <img className="apecoin" src={apecoin} /> COIN HERE
+          </a>
+        </h6>
       </div>
 
       <div className="container DivB">
