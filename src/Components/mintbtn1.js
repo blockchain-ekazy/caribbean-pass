@@ -8,7 +8,7 @@ import loading from "../images/loading.gif";
 import one from "../images/1.png";
 import apecoin from "../images/apecoin.ico";
 
-const REACT_APP_CONTRACT_ADDRESS = "0xE78d66AAa50D2c0E48bC5C94473e94dD9ee01FAf";
+const REACT_APP_CONTRACT_ADDRESS = "0xA3950BB5Fb4aa7e2486c6FD0B7Bc1de9CDa21ce7";
 const SELECTEDNETWORK = "4";
 const SELECTEDNETWORKNAME = "Ethereum Testnet";
 const nftquantity = 2500;
