@@ -24,7 +24,12 @@ export default function Home() {
         </video>
         <h1>The Genesis Collection</h1>
         <h4>By Racs-O</h4>
-        {/* </h1> */}
+        <a href="https://twitter.com/racs_o" target="_blank">
+          <i className="fab fa-twitter mx-2 color-white"></i>
+        </a>
+        <a href="https://www.instagram.com/stories/racs.eth/" target="_blank">
+          <i className="fab fa-instagram mx-2 color-white"></i>
+        </a>
         <h6 className="pb-3">Total supply: 4200 NFTs</h6>
         <h6>
           No Roadmap. No Discord.

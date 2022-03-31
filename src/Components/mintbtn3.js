@@ -46,8 +46,12 @@ function Mintbtn2() {
         setPrice(await ct.methods.price(tokenId).call());
         setBurnQ(await ct.methods.burnQ(tokenId).call());
         setSupply(total);
-        if (nftquantity - total == 0) {
+        if (nftquantity - total <= 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
+        }
+        if ((await ct.methods.status().call()) == 0) {
+          setErrorMsg("Minting Paused");
+          return;
         }
       } else {
         // setProvider(false);
@@ -93,17 +97,14 @@ function Mintbtn2() {
 
         setErrorMsg(<img className="loading" src={loading} />);
 
-        const coinAddress = "0xc1F77DdD6ba4f960AdE9429F0216728f9DF2713f";
+        const coinAddress = "0x4d224452801ACEd8B2F0aebE155379bb5D594381";
         const coinCt = new web3.eth.Contract(coinabi, coinAddress);
         let balance = await coinCt.methods.balanceOf(metaMaskAccount).call();
-        let balance2 = await ct.methods
-          .balanceOf(metaMaskAccount, tokenId)
-          .call();
+        // let balance2 = await ct.methods
+        //   .balanceOf(metaMaskAccount, tokenId)
+        //   .call();
         // let price = await ct.methods.price(tokenId).call();
-        if (
-          Number(balance) >= Number(price) * Number(quantity) &&
-          balance2 < 5
-        ) {
+        if (Number(balance) >= Number(price) * Number(quantity)) {
           await coinCt.methods
             .approve(REACT_APP_CONTRACT_ADDRESS, String(price * quantity))
             .send({ from: metaMaskAccount });
@@ -143,7 +144,7 @@ function Mintbtn2() {
         let balance2 = await ct.methods
           .balanceOf(metaMaskAccount, tokenId)
           .call();
-        if (balance >= Number(burnQ) * Number(quantity) && balance2 < 5) {
+        if (balance >= Number(burnQ) * Number(quantity)) {
           await ct.methods
             .burnMint(tokenId, quantity)
             .send({ from: metaMaskAccount });
@@ -169,7 +170,7 @@ function Mintbtn2() {
         let total = await ct.methods.totalSupply(tokenId).call();
         setPrice(await ct.methods.price(tokenId).call());
         setSupply(total);
-        if (nftquantity - total == 0) {
+        if (nftquantity - total <= 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
         }
       }
@@ -243,7 +244,6 @@ function Mintbtn2() {
                 name="goldOption"
                 onClick={() => {
                   setOption(0);
-                  setErrorMsg(false);
                 }}
               />
               <label htmlFor="goldmint" className="mx-2">
@@ -258,7 +258,6 @@ function Mintbtn2() {
                 name="goldOption"
                 onClick={() => {
                   setOption(1);
-                  setErrorMsg(false);
                 }}
               />
               <label htmlFor="goldburn" className="mx-2">

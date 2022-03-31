@@ -49,8 +49,12 @@ function Mintbtn1() {
         total = Number(total) + Number(b);
         setMaxAllowed(total < 1001 ? 2 : 5);
         setSupply(total);
-        if (nftquantity - total == 0) {
+        if (nftquantity - total <= 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
+        }
+        if ((await ct.methods.status().call()) == 0) {
+          setErrorMsg("Minting Paused");
+          return;
         }
       } else {
         // setProvider(false);
@@ -98,7 +102,8 @@ function Mintbtn1() {
 
         if (supply < 1001) {
           if (
-            (await ct.methods.balanceOf(metaMaskAccount, tokenId).call()) == 3
+            (await ct.methods.numberMinted(metaMaskAccount, tokenId).call()) ==
+            2
           ) {
             setErrorMsg("Already Minted 2 for Free");
             return;
@@ -108,12 +113,12 @@ function Mintbtn1() {
             .send({ from: metaMaskAccount });
         } else {
           if (
-            (await ct.methods.balanceOf(metaMaskAccount, tokenId).call()) > 7
+            (await ct.methods.numberMinted(metaMaskAccount, tokenId).call()) > 7
           ) {
             setErrorMsg("Already Minted 7 Bronze");
             return;
           }
-          const coinAddress = "0xc1F77DdD6ba4f960AdE9429F0216728f9DF2713f";
+          const coinAddress = "0x4d224452801ACEd8B2F0aebE155379bb5D594381";
           const coinCt = new web3.eth.Contract(coinabi, coinAddress);
           let balance = await coinCt.methods.balanceOf(metaMaskAccount).call();
           let price = await ct.methods.price(tokenId).call();
@@ -157,7 +162,7 @@ function Mintbtn1() {
         setBurned(b);
         total = Number(total) + Number(b);
         setSupply(total);
-        if (nftquantity - total == 0) {
+        if (nftquantity - total <= 0) {
           setErrorMsg("All NFTs minted, Sale has ended");
         }
       }
