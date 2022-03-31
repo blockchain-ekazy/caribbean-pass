@@ -8,9 +8,9 @@ import loading from "../images/loading.gif";
 import one from "../images/2.png";
 import apecoin from "../images/apecoin.ico";
 
-const REACT_APP_CONTRACT_ADDRESS = "0x84b41c63f60ce879c645ad5596a4f3f5e9cc9157";
-const SELECTEDNETWORK = "4";
-const SELECTEDNETWORKNAME = "Ethereum Testnet";
+const REACT_APP_CONTRACT_ADDRESS = "0x491597e29a11f99dcd79a33d1e1960c9cbeb08c4";
+const SELECTEDNETWORK = "1";
+const SELECTEDNETWORKNAME = "Ethereum Mainnet";
 const nftquantity = 1000;
 const tokenId = 2;
 
